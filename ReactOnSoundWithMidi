@@ -1,0 +1,87 @@
+import themidibus.*; 
+
+MidiBus myBus; 
+
+import ddf.minim.*;
+
+Minim minim;
+AudioInput in;
+
+int channel, number, value;
+
+float value1, value2, value3, value5;
+int value4;
+int d = 300;
+float xoff = 0.01;
+float q = 1;
+int m = 1;
+
+void setup() {
+  size(1000, 1000);
+  stroke(255);
+  background(122);
+  noFill();
+  frameRate(60);
+  strokeWeight(1);
+  smooth();
+   minim = new Minim(this);
+    in = minim.getLineIn();
+
+  MidiBus.list();
+
+  myBus = new MidiBus(this, 0, 1);
+}
+
+void draw() {
+  background(0);
+  pushMatrix();
+  translate(width/2,height/2);
+  rotate(radians(value5));
+  myBus.sendControllerChange(channel, number, value);
+
+  q = 27;
+  m = 1;
+  noiseDetail(value4);
+  
+  
+
+  beginShape();
+
+  for (int i = 0; i < 360; i++) {
+    value3 = in.left.get(i)*1000;
+    //float rnd = map(noise(xoff),0,1,-100,100);
+    float rnd = map(noise( cos(i)*value2, sin(i)*value2, xoff ), 0.0, 1.0, -value3, value3); 
+    float x = 0 + (rnd+value1) * sin(radians(i));
+    float y = 0 + (rnd+value1) * cos(radians(i));
+
+    vertex(x, y);
+  }
+
+  endShape();
+  xoff+= 0.02;
+
+  delay(10);
+  popMatrix();
+}
+
+void controllerChange(int channel, int number, int value) {
+
+  println("Channel:"+channel);
+  println("Number:"+number);
+  println("Value:"+value);
+
+  if (number == 16) { //knob 1
+    value1 = map(value, 0, 127, -500, 500);
+  }
+  if (number == 17) { //knob 2
+    value2 = map(value, 0, 127, 0, 10);
+  }
+    if (number == 18) { //knob 2
+    //value3 = map(value, 0, 127, -200, 200);
+  }
+      if (number == 19) { //knob 2
+    value4 = int(map(value, 0, 127, 0, 4));
+  }
+        if (number == 20) { //knob 2
+    value5 = int(map(value, 0, 127, -360, 360));
+  }

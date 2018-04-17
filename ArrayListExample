@@ -1,0 +1,47 @@
+//bijlesberend!
+/*	
+o    o     _ _
+ \  /    '       `
+  |/   /     __    \
+(`  \ '    '    \   '
+  \  \|   |   @_/   |
+   \   \   \       /--/
+    ` _ _ _ __ '
+*/
+ArrayList<className> classes = new ArrayList<className>();
+
+void setup() {
+  size(1000, 1000);
+  background(0);
+
+  for (int q = 0; q < 100; q++) {
+    for (int i = 0; i < 100; i++) {
+      classes.add(new className(i*50, q* 50));
+    }
+  }
+}
+
+void draw() {
+  background(0);
+  for (int i = 0; i < classes.size(); i++) {
+    classes.get(i).displaaay();
+    classes.get(i).update();
+  }
+}
+
+class className {
+  float x, y;
+
+  className(float xcor, float ycor) {
+    x = xcor;
+    y = ycor;
+  }
+
+  void displaaay() {
+    ellipse(x, y, 50, 50);
+  }
+
+  void update() {
+    x++;
+  }
+}
